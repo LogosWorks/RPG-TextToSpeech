@@ -79,6 +79,18 @@ def settings():
     return redirect(url_for('login'))
 
 
+# -------- Speech ---------------------------------------------------------- #
+
+@app.route('/sp', methods=['GET', 'POST'])
+def server():
+    if request.method == 'POST':
+        # Then get the data from the form
+        text_to_convert = request.form['value']
+
+        # Generate just a boring response
+        return 'The credentials for %s are %s and %s' % (tag, user, password) 
+    
+    
 # ======== Main ============================================================== #
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=True)
