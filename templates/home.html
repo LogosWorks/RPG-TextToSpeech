@@ -2,11 +2,14 @@
 {% block body %}
 {% include "navbar.html" %}
 <section class="hero is-primary is-bold is-large">
+
   <div class="hero-body"><form action="/sp" method="POST">
     Enter the text:  <input type="text" name="fname"><br>
     
     <input type="submit" value="speech">
   </form></div>
+
+
 </section>
 {% endblock %}
 {% block scripts %}
