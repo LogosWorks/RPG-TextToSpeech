@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+{% include "navbar.html" %}
+<section class="hero is-primary is-bold is-large">
+  <div class="hero-body"><audio controls>
+    <script>
+        var bot = {{ text_to_speech }}
+    </script>
+    <source src="../static/audio/{{ text_to_speech }}.mp3?a=bf" type="audio/mpeg">
+  Your browser does not support the audio element.
+  </audio></div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="../static/js/scripts.js"></script>
+{% endblock %}

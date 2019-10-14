@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from playsound import playsound
 from scripts import tabledef
 from scripts import forms
 from scripts import helpers
@@ -77,6 +77,40 @@ def settings():
         user = helpers.get_user()
         return render_template('settings.html', user=user)
     return redirect(url_for('login'))
+
+@app.route('/sp', methods=['POST'])
+def speech():
+    import os
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dnd-text-to-speech-1186db76a3d4.json"
+    text_to_speech = request.form['fname']
+    from google.cloud import texttospeech
+
+# Instantiates a client
+    client = texttospeech.TextToSpeechClient()
+
+# Set the text input to be synthesized
+    synthesis_input = texttospeech.types.SynthesisInput(text = text_to_speech)
+
+# Build the voice request, select the language code ("en-US") and the ssml
+# voice gender ("neutral")
+    voice = texttospeech.types.VoiceSelectionParams(
+    language_code='en-US',
+    ssml_gender=texttospeech.enums.SsmlVoiceGender.NEUTRAL)
+
+# Select the type of audio file you want returned
+    audio_config = texttospeech.types.AudioConfig(
+    audio_encoding=texttospeech.enums.AudioEncoding.MP3)
+
+# Perform the text-to-speech request on the text input with the selected
+# voice parameters and audio file type
+    response = client.synthesize_speech(synthesis_input, voice, audio_config)
+
+# The response's audio_content is binary.
+    with open('static/audio/{}.mp3'.format(text_to_speech), 'wb') as out:
+    # Write the response to the output file.
+     out.write(response.audio_content)
+    
+    return render_template('sp.html', text_to_speech=text_to_speech)
 
 
 # ======== Main ============================================================== #
