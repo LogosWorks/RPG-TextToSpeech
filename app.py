@@ -88,7 +88,7 @@ def server():
         text_to_convert = request.form['value']
 
         # Generate just a boring response
-        return 'The credentials for %s are %s and %s' % (tag, user, password) 
+        return text_to_convert 
     
     
 # ======== Main ============================================================== #
